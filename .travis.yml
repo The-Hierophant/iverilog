@@ -77,13 +77,14 @@ jobs:
       before_install:
         - git clone https://github.com/The-Hierophant/iverilog.git
         - export PATH=$HOME/bin:$PATH
+        - sudo apt-get install mingw-w64
       script:
         - autoconf
         - ./configure --prefix=$HOME --host=x64_64-w64-mingw32
         - make
         - ls
         # - make install
-        - make check
+        # - make check
         # - cd ivtest
         # - perl vvp_reg.pl
         # - diff regression_report-devel.txt regression_report.txt
