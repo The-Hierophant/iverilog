@@ -47,45 +47,42 @@ jobs:
     #     - diff regression_report-devel.txt regression_report.txt
     #     - perl vpi_reg.pl
 
-    # - stage: Test
-    #   os: windows
-    #   before_install:
-    #     - git clone https://github.com/steveicarus/ivtest.git
-    #     - choco uninstall -y mingw
-    #     - choco upgrade --no-progress -y msys2
-    #     - export msys2='cmd //C RefreshEnv.cmd '
-    #     - export msys2+='& set MSYS=winsymlinks:nativestrict '
-    #     - export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
-    #     - export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
-    #     - export msys2+=" -msys2 -c "\"\$@"\" --"
-    #     - $msys2 pacman --sync --noconfirm --needed base-devel mingw-w64-x86_64-toolchain
-    #   script:
-    #     - $mingw64 ./autoconf.sh
-    #     - $mingw64 ./configure
-    #     - $mingw64 make install
-    #     - $mingw64 make check
-    #     - cd ivtest
-    #     - $mingw64 perl update_msys2_report.pl
-    #     - $mingw64 perl vvp_reg.pl
-    #     - diff --strip-trailing-cr regression_report-msys2.txt regression_report.txt
-    #     - $mingw64 perl vpi_reg.pl
-
-    - stage: Release
-      os: linux
-      arch: arm64-graviton2
-      dist: focal
+    - stage: Test
+      os: windows
       before_install:
-        - git clone https://github.com/The-Hierophant/iverilog.git
-        - export PATH=$HOME/bin:$PATH
-        - sudo apt-get install mingw-w64
+        - git clone https://github.com/steveicarus/ivtest.git
+        - choco uninstall -y mingw
+        - choco upgrade --no-progress -y msys2
+        - export msys2='cmd //C RefreshEnv.cmd '
+        - export msys2+='& set MSYS=winsymlinks:nativestrict '
+        - export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
+        - export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
+        - export msys2+=" -msys2 -c "\"\$@"\" --"
+        - $msys2 pacman --sync --noconfirm --needed base-devel mingw-w64-x86_64-toolchain
       script:
-        - autoconf
-        - ./configure --prefix=$HOME --host=x64_64-w64-mingw32
-        - make
-        - ls
-        # - make install
-        # - make check
+        - dir
+        - $mingw64 ./autoconf.sh
+        - $mingw64 ./configure
+        - $mingw64 make
+        - dir
+        # - $mingw64 make install
+        # - $mingw64 make check
         # - cd ivtest
-        # - perl vvp_reg.pl
-        # - diff regression_report-devel.txt regression_report.txt
-        # - perl vpi_reg.pl
+        # - $mingw64 perl update_msys2_report.pl
+        # - $mingw64 perl vvp_reg.pl
+        # - diff --strip-trailing-cr regression_report-msys2.txt regression_report.txt
+        # - $mingw64 perl vpi_reg.pl
+
+    # - stage: Release
+    #   os: linux
+    #   arch: arm64-graviton2
+    #   dist: focal
+    #   before_install:
+    #     - git clone https://github.com/The-Hierophant/iverilog.git
+    #     - export PATH=$HOME/bin:$PATH
+    #     - sudo apt-get install mingw-w64
+    #   script:
+    #     - autoconf
+    #     - ./configure --prefix=$HOME --host=x64_64-w64-mingw32
+    #     - make
+    #     - ls
